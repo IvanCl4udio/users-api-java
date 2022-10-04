@@ -2,6 +2,7 @@ podTemplate(containers: [containerTemplate(name: 'maven', image: 'maven', comman
   node(POD_LABEL) {
       checkout scm
         container('maven') {
+              sh 'type mvn'
               sh 'mvn -B -ntp -Dmaven.test.failure.ignore verify'
                   
         }
