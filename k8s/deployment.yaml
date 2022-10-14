@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crud-users-deployment
+  namespace: crud-users
+  labels:
+    app: crud-users-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crud-users-app
+  template:
+    metadata:
+      labels:
+        app: crud-users-app
+    spec:
+      containers:
+        - name: crud-users
+          image: ivancl4udio/crud-users:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: crud-database-creds
+                  key: SPRING_DATASOURCE_URL
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: crud-database-creds
+                  key: SPRING_DATASOURCE_USERNAME
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: crud-database-creds
+                  key: SPRING_DATASOURCE_PASSWORD
+            - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+              valueFrom:
+                secretKeyRef:
+                  name: crud-database-creds
+                  key: SPRING_JPA_HIBERNATE_DDL_AUTO
