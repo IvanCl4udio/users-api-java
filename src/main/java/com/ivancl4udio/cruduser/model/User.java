@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Classe de entidade utilizada para persistência das informações.
+ */
 @Entity
 @Table(name="appuser")
 public class User {
