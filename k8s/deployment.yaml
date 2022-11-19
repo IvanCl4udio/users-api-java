@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: crud-users
-          image: ivancl4udio/crud-users:1.0.0
+          image: harbor.lab.int/crud-users/crud-users:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
