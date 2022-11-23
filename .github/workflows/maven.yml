@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ "master" ]
 
+env:
+  PROJECT: "crud-users"
+  PROJECT_NAME: "crud-users-api"
+
 jobs:
   build:
 
@@ -21,3 +25,8 @@ jobs:
       uses: ./actionsTools/build
       with:
         settings: ${{ secrets.MAVEN_SETTINGS }}
+    - name: Build and Publish image
+      uses: ./actionsTools/build-image-and-push
+      with:
+        project: ${{ env.PROJECT }}
+
