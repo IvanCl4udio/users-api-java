@@ -29,4 +29,8 @@ jobs:
       uses: ./actionsTools/build-image-and-push
       with:
         project: ${{ env.PROJECT }}
+        tag: 1.0.0
+        registryUrl: ${{ secrets.REGISTRY_URL }}
+        registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+        registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
 
