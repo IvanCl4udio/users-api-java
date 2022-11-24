@@ -2,19 +2,16 @@ apiVersion: v1
 kind: Namespace
 metadata:
   labels:
-    kubernetes.io/metadata.name: crud-users
-  name: crud-users
+    kubernetes.io/metadata.name: crud-api
+  name: crud-api
 ---
 apiVersion: v1
 data:
   .dockerconfigjson: eyJhdXRocyI6eyJoYXJib3IubGFiLmludCI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJIYXJib3IxMjM0NSIsImF1dGgiOiJZV1J0YVc0NlNHRnlZbTl5TVRJek5EVT0ifX19
 kind: Secret
 metadata:
-  creationTimestamp: "2022-11-18T17:29:19Z"
   name: harbor-registry
-  namespace: crud-users
-  resourceVersion: "516828"
-  uid: b819318a-3fcd-42ff-a1c6-475280193bbe
+  namespace: crud-api
 type: kubernetes.io/dockerconfigjson
 ---
 apiVersion: v1
@@ -23,18 +20,15 @@ data:
   tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRRDVTS1Z3WkZFT2FnbFUKUTdFVDNZWmxWTFA3V1ZEQlB2UmVvNVdBZ0UvSkFRTGdTSVFIWWhTYmFpSS84WHJETHRhS1VpYVJGazV2ckJQQQpwbmxTR0dpVlpRLzJCSXJDWjc5YThGelU0bGNrdEthVmtUMzRwRU9SVzBhUTVFMXpjT0RtcFlrS210YzJYTW5oClp4dXBHUGh4cEozTVNER21uN2FCYzR6ci9aK3dsUnVzODdseWZWcWpNYm9ocEF6TlRSZ2JUWXZLMjR4M3FLQ1MKY2ZUdEVhbW9Zb3lsUm0yamE0Qm5VUm9kTGxKZERYOG1IZEw4Q05CYnBuaUxDa3lJOXE4cWRYU3dSK2tyR2lTVgpuNEtZRjBocy93Z1FKemtiVCswMlJycU5nMnh3dlpobWtxbDFYa2diU05udW1iNFZRWjE3OEFZd2pnaFpZZVZPCkx0UzBKUVlYQWdNQkFBRUNnZ0VBTGROQWNtWkdqa2RJMnNBczI3R0Q1TG5LOGtBcmU3TEdlbVZJOU52aGp0cE0KUEkyb0U3RmdoMmRkejNKbE5sODBXaTRhMzk0QllqNzRUSmh0d2YweHNKRG8rN2svQnRqS2tQMlJteUxXa1MxUwpXRGxnY29aRDA0TTdlQ1EzNXFwUDlhWmxpRmtKaWZsSnRWRmVnTm5SeGhaVVdickZ3ZE1uV2ltek5LaWxnL0N3ClNtQ2dRV0Z5WVdURjRNWWJocGFEYm01VUZRRUgwNm4yNkJ0SGFkdnl4WFpUSGVhd2NXVnFnYkdwU0hhYnF6aUIKSSs5bjNwNWQva1pBdGV3bHYvQklKM1RaR3NpZmxLRG5ORDZEcC8zaDF3K0loTVpzbWdYbzMwaXVNdmpGeWpYaQpIMzJPMHd0TVRmUkg5NmRuWEdnaEhSL2hWcEFDSi9mQmd3UmZpc090QVFLQmdRRDlDWWVmc1k3Wk4wcFQ3bWEvCnMvYW4zZ0orV3pWUnA5UUV1RlhIcXFzakVBSm1JZW1SYTI3MUZUOTZhUFhaelBXeURjdk5rT2VxNXlKc2lzdEwKeWc5N2lSSFNrbm5oWHY0L2o1TVlXWDN1U3U0ZHVLaGpDeXlWRFVMcVpqRVF5dGtNYThtUlRCdDU1K05uTFBKeApYRk9UNE0yNW1udnRpTVA5SmNQeFltMTVBUUtCZ1FEOE05Mlp1aGlDZk1NTDhXNVJGdlQzeEtVcmozcHdUWGlRCitJdXVnVHpFclQyRE5VUHRkZXVjVkFma1ptczdoekpOU0Q4OXNrOHc1UlFObkxlL2VoWThJQU5rN1M2R3E4b0wKMGxMQWh1Q2dJOHp5dFJsNEtmSHJ3TkYybzFVd2NDWlpPb0lTb2x1UVpGMEEzS3kxRWhvMjF4YTYwVmxEaEs5QgozY1YrVHVBbkZ3S0JnUURIWVpMMFNqeDgvQXdkUm1TLytWWUp2KzNIRXFkWXlCMVArcy9jbktaczRsaUJrWWN4CmhxM1BnQWFjdGNmQzdyVktyNFEvWGthdGE2SzhWRUVNWHhNRURHVjJ2dVE2cVZjOVRpeGhxMktIT1pPVzU4SUgKQ084QUk0cnVsOGRocS9TS3pRUHU4VUZWTlZzQ0dYQ1AwbWdveGFKVTlWMWhOYnI0NWFFWHVxNzRBUUtCZ0RWZQpGRXB2WXJoYUJqd0V2cjlTQ0V4VnhFM1BjcTFJOTNaVjRkanZhQmlHUURuL2ozdzBNOE5FMU5hMEJZVDNPdUczCnBBbytMUnUvbmRxeml2NXRxejdWMTJJSC9veG8xYnhpcVRnc1VtUVFyMUc4bU1NZ3ZSeVNGTUR5RnhqRTRwaUgKRlBjMGZBTzErU2d4aWlwV3hrMU1mbmJSemYzSG1mNXFHMXg2L0Z2SkFvR0JBTTh6Lyt5K2dBSjh2RElvb0Q4ZQpISE5YQzlZTnNWaEE4T2N4bUFia3lhWWNNSno1K09COFE3anhUaFZScWtmSU82bDNpa3Y2dTBWclhRUjlYS1FDCmI2V2FXRW9RSTlIZU5Na25XcjVva09vQm5VKzVyYldLaXZhZjFmTzZBQnNueDFnMDFNOHVscjdqd0RlU0RzVkUKd2FlQjBYOU9zaVdDVEh0QnJHN1g5OG9zCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K
 kind: Secret
 metadata:
-  creationTimestamp: "2022-11-22T09:27:44Z"
-  name: crud-users-tls
-  namespace: crud-users
-  resourceVersion: "743985"
-  uid: 5fa812f4-fbf7-450a-8240-56cdf2b9a0f6
+  name: crud-api-tls
+  namespace: crud-api
 type: kubernetes.io/tls
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: crud-database-creds
-  namespace: crud-users
+  namespace: crud-api
 type: Opaque
 stringData:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgresql.database.svc.cluster.local:5432/postgres"
@@ -45,23 +39,23 @@ stringData:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: crud-users-deployment
-  namespace: crud-users
+  name: crud-api-deployment
+  namespace: crud-api
   labels:
-    app: crud-users-app
+    app: crud-api-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: crud-users-app
+      app: crud-api-app
   template:
     metadata:
       labels:
-        app: crud-users-app
+        app: crud-api-app
     spec:
       containers:
-        - name: crud-users
-          image: harbor.lab.int/crud-users/crud-users:1.0.0
+        - name: crud-api
+          image: harbor.lab.int/crud-api/crud-api:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -90,11 +84,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: crud-users-service
-  namespace: crud-users
+  name: crud-api-service
+  namespace: crud-api
 spec:
   selector:
-    app: crud-users-app
+    app: crud-api-app
   ports:
     - protocol: TCP
       port: 8080
@@ -103,20 +97,20 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: crud-users-ingress
-  namespace: crud-users
+  name: crud-api-ingress
+  namespace: crud-api
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: "crud-users.lab.int"
+    - host: "crud-api.lab.int"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: crud-users-service
+                name: crud-api-service
                 port:
                   number: 8080
   ingressClassName: nginx
