@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
         - name: crud-api
-          image: harbor.lab.int/crud-api/crud-api:1.0.0
+          image: harbor.lab.int/crud-users/crud-users-api:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
