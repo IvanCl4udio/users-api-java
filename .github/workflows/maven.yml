@@ -33,4 +33,12 @@ jobs:
         registryUrl: ${{ secrets.REGISTRY_URL }}
         registryUsername: ${{ secrets.REGISTRY_USERNAME }}
         registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Deploy on K8s
+      uses: ./actionsTools/deploy-k8s
+      with:
+        namespace: crud-api
+        manifest: k8s/deployment.yaml
+        config: ${{ secrets.K8S_CONFIG }}
+
+
 
