@@ -80,6 +80,8 @@ spec:
                 secretKeyRef:
                   name: crud-database-creds
                   key: SPRING_JPA_HIBERNATE_DDL_AUTO
+      imagePullSecrets:
+      - name: harbor-registry            
 ---
 apiVersion: v1
 kind: Service
