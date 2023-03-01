@@ -1,0 +1,41 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  PROJECT: "crud-users"
+  PROJECT_NAME: "crud-users-api"
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - name: Checkout action tools repo
+      uses: actions/checkout@v3
+      with:
+        repository: DevOps-Flow/actions
+        path: ./actionsTools
+    - name: Maven Build
+      uses: ./actionsTools/build
+      with:
+        settings: ${{ secrets.MAVEN_SETTINGS }}
+    - name: Build and Publish image
+      uses: ./actionsTools/build-image-and-push
+      with:
+        project: ${{ env.PROJECT }}
+        tag: 1.0.0
+        registryUrl: ${{ secrets.REGISTRY_URL }}
+        registryUsername: ${{ secrets.REGISTRY_USERNAME }}
+        registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Deploy on K8s
+      uses: ./actionsTools/deploy-k8s
+      with:
+        namespace: crud-api
+        manifest: k8s/deployment.yaml
+        config: ${{ secrets.K8S_CONFIG }}
