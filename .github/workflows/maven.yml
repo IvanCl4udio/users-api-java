@@ -25,7 +25,7 @@ jobs:
     - name: Maven Build
       uses: ./actionsTools/build
       with:
-        settings: ${{ secrets.MAVEN_SETTINGS }}
+        #settings: ${{ secrets.MAVEN_SETTINGS }}
     - name: Build and Publish image
       uses: ./actionsTools/build-image-and-push
       with:
@@ -34,12 +34,12 @@ jobs:
         registryUrl: ${{ secrets.REGISTRY_URL }}
         registryUsername: ${{ secrets.REGISTRY_USERNAME }}
         registryPassword: ${{ secrets.REGISTRY_PASSWORD }}
-    - name: Deploy on K8s
-      uses: ./actionsTools/deploy-k8s
-      with:
-        namespace: crud-api
-        manifest: k8s/deployment.yaml
-        config: ${{ secrets.K8S_CONFIG }}
+    #- name: Deploy on K8s
+    #  uses: ./actionsTools/deploy-k8s
+    #  with:
+    #    namespace: crud-api
+    #    manifest: k8s/deployment.yaml
+    #    config: ${{ secrets.K8S_CONFIG }}
 
 
 
