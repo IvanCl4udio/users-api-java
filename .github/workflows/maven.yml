@@ -24,7 +24,7 @@ jobs:
         path: ./actionsTools
     - name: Maven Build
       uses: ./actionsTools/build
-      with:
+      #with:
         #settings: ${{ secrets.MAVEN_SETTINGS }}
     - name: Build and Publish image
       uses: ./actionsTools/build-image-and-push
