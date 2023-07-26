@@ -1,6 +1,10 @@
 # CRUD Users
 Simple application that store data about users in a database.
 
+[![Build](https://github.com/IvanCl4udio/crud-users/actions/workflows/build.yml/badge.svg)](https://github.com/IvanCl4udio/crud-users/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=IvanCl4udio_crud-users&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=IvanCl4udio_crud-users)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=IvanCl4udio_crud-users&metric=coverage)](https://sonarcloud.io/summary/new_code?id=IvanCl4udio_crud-users)
+
 ## How build this application ##
 Run the following command from root of repository:
 ```bash
