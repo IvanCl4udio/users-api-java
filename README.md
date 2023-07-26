@@ -1,8 +1,6 @@
 # CRUD Users
 Simple application that store data about users in a database.
 
-[![Java CI with Maven](https://github.com/IvanCl4udio/crud-users/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/IvanCl4udio/crud-users/actions/workflows/maven.yml)
-
 ## How build this application ##
 Run the following command from root of repository:
 ```bash
