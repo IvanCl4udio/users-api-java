@@ -13,7 +13,7 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
   app:
     container_name: crud-users
-    image: ivancl4udio/crud-users:1.0.0
+    image: ivancl4udio/crud-users:2.0.0
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres

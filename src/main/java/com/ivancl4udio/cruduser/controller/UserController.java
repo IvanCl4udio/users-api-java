@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.ivancl4udio.cruduser.model.User;
-import com.ivancl4udio.cruduser.repository.UserRepository;
+import com.ivancl4udio.cruduser.service.UserService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,16 +32,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
 	final Logger logger = LoggerFactory.getLogger(UserController.class);
-	
-	private final UserRepository userRepository;
+
+	private final UserService userService;
 
 	/**
 	 * Método construtor utilizado para injetar a dependência de persistência.
-	 * @param userRepository - repositório injetado com dependência
+	 * @param userService - repositório injetado com dependência
 	 */
 	@Autowired
-	public UserController(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	/**
@@ -59,9 +59,9 @@ public class UserController {
 			List<User> users = new ArrayList<>();
 
 			if (lastName == null) {
-				users.addAll(userRepository.findAll());
+				users.addAll(userService.findAllUsers());
 			} else {
-				users.addAll(userRepository.findByLastName(lastName));
+				users.addAll(userService.findByLastName(lastName));
 			}
 			
 			if (users.isEmpty()) {
@@ -87,7 +87,7 @@ public class UserController {
 		
 		logger.info("Getting a single user with id: " + id);
 		
-		Optional<User> userData = userRepository.findById(id);
+		Optional<User> userData = userService.findUserById(id);
 
 		return userData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
@@ -101,8 +101,8 @@ public class UserController {
 	public ResponseEntity<User> createNewUser(@RequestBody User user){
 		logger.info("Creating a new user");
 		try {
-			User _user = userRepository
-					.save(new User(user.getUserName(), user.getLastName(), user.getFirstName(), user.getPassword()));
+			User _user = userService
+					.saveUser(new User(user.getUserName(), user.getLastName(), user.getFirstName(), user.getPassword()));
 			return new ResponseEntity<>(_user, HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error(e.toString());
@@ -120,7 +120,7 @@ public class UserController {
 	public ResponseEntity<User>	updateUser(@PathVariable ("id") long id, @RequestBody User user){
 		logger.info("Changing user with id: " + id);
 		
-		Optional<User> userData = userRepository.findById(id);
+		Optional<User> userData = userService.findUserById(id);
 
 		if (userData.isPresent()) {
 			User _user = userData.get();
@@ -128,7 +128,7 @@ public class UserController {
 			_user.setLastName(user.getLastName());
 			_user.setFirstName(user.getFirstName());
 			_user.setPassword(user.getPassword());
-			return new ResponseEntity<>(userRepository.save(_user), HttpStatus.OK);
+			return new ResponseEntity<>(userService.saveUser(_user), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -140,10 +140,10 @@ public class UserController {
 	 * @return - HttpStatus
 	 */
 	@DeleteMapping("/users/{id}")
-	public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") long id) {
+	public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
 		try {
 			logger.info("Deleting user with id: " + id);
-			userRepository.deleteById(id);
+			userService.deleteUserById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			logger.error(e.toString());
