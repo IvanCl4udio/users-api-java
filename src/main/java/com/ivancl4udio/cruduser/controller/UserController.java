@@ -101,7 +101,7 @@ public class UserController {
 			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error(e.toString());
-			return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new User(), HttpStatus.CONFLICT);
 		}
 	}
 
@@ -124,6 +124,7 @@ public class UserController {
 			newUser.setPassword(user.getPassword());
 			return new ResponseEntity<>(userService.saveUser(newUser), HttpStatus.OK);
 		} else {
+			logger.error("Usuário não encontrado");
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}

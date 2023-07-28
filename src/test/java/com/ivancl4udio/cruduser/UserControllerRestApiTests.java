@@ -6,11 +6,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,6 +29,24 @@ class UserControllerRestApiTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    void  should_return_user_when_search_by_lastname() throws Exception {
+        //Given
+        User user = this.buildTestingUser();
+        //When
+        when(userService.findByLastName("Cruz")).thenReturn(List.of(user));
+        //Then
+        mockMvc.perform(get("/api/users?lastName=Cruz"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].firstName",is("Ivan")))
+                .andExpect(jsonPath("$[0].lastName",is("Cruz")))
+                .andExpect(jsonPath("$[0].userName",is("icruz")))
+                .andExpect(jsonPath("$[0].password",is("123456"))
+                );
+    }
 
     @Test
     void should_return_users_list() throws Exception {
@@ -45,6 +66,15 @@ class UserControllerRestApiTests {
         );
     }
 
+    @Test
+    void should_return_nothing_if_database_is_empty() throws Exception {
+        //When
+        when(userService.findAllUsers()).thenReturn(List.of());
+        //Then
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isNoContent()
+                );
+    }
     @Test
     void should_return_user() throws Exception{
         //Given
@@ -84,6 +114,20 @@ class UserControllerRestApiTests {
     }
 
     @Test
+    void should_update_existing_user() throws Exception {
+        //Given
+        User user = this.buildTestingUser();
+        //When
+        when(userService.findUserById(1L)).thenReturn(java.util.Optional.of(user));
+        when(userService.saveUser((User) org.mockito.ArgumentMatchers.any(User.class))).thenReturn(user);
+        //Then
+        mockMvc.perform(put("/api/users/1")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content("{\"firstName\":\"Ivan\",\"lastName\":\"Cruz\",\"userName\":\"icruz\",\"password\":\"123456\"}"))
+        .andExpect(status().isOk());
+    }
+
+    @Test
     void should_remove_user() throws Exception{
         //Given
         User user = this.buildTestingUser();
@@ -94,6 +138,22 @@ class UserControllerRestApiTests {
         .andExpect(status().isNoContent());
     }
 
+    @Test
+    void should_return_blank_result_when_get_all_users() throws Exception {
+        //When
+        when(userService.findAllUsers()).thenReturn(List.of());
+        //Then
+        mockMvc.perform(get("/api/users"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    void should_return_blank_result_when_get_a_single_user() throws Exception {
+        //When
+        when(userService.findUserById(1L)).thenReturn(Optional.empty());
+        //Then
+        mockMvc.perform(get("/api/users/1"))
+                .andExpect(status().isNotFound());
+    }
     private User buildTestingUser() {
         User user = new User();
         user.setId(1L);
