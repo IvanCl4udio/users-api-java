@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,7 @@ import com.ivancl4udio.cruduser.model.User;
 import com.ivancl4udio.cruduser.repository.UserRepository;
 import com.ivancl4udio.cruduser.service.UserServiceImpl;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @ExtendWith(MockitoExtension.class)
 class UserServiceUnitTest {
 
@@ -33,7 +33,7 @@ class UserServiceUnitTest {
         User user = this.buildTestingUser();
 
         //When
-        when(userRepository.findAll()).thenReturn(Arrays.asList(user));
+        when(userRepository.findAll()).thenReturn(List.of(user));
         List<User> returnedUsers = userServiceImpl.findAllUsers();
 
         //Then

@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
-import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ class UserControllerRestApiTests {
         //Given
         User user = this.buildTestingUser();
         //When
-        when(userService.findAllUsers()).thenReturn(Arrays.asList(user));
+        when(userService.findAllUsers()).thenReturn(List.of(user));
         //Then
         mockMvc.perform(get("/api/users"))
             .andExpect(status().isOk())
@@ -68,6 +68,7 @@ class UserControllerRestApiTests {
         User user = this.buildTestingUser();
         //when
         // Changed matchers to use from Mockito because casting is not working with org.hamcrest.Matchers
+        //noinspection RedundantCast
         when(userService.saveUser((User) org.mockito.ArgumentMatchers.any(User.class))).thenReturn(user);
         //Then
         mockMvc.perform(post("/api/users")
