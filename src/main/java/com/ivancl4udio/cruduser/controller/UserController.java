@@ -53,9 +53,7 @@ public class UserController {
 	@GetMapping("/users")
 	public ResponseEntity<List<User>> getAllUsers(@RequestParam(required=false) String lastName) {
 		try {
-			
-			logger.info("Listing all users from db");
-			
+
 			List<User> users = new ArrayList<>();
 
 			if (lastName == null) {
@@ -72,7 +70,7 @@ public class UserController {
 			
 		} catch (Exception e) {
 			logger.error(e.toString());
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(List.of(), HttpStatus.INTERNAL_SERVER_ERROR);
 			
 		}
 	}
@@ -84,9 +82,7 @@ public class UserController {
 	 */
 	@GetMapping("users/{id}")
 	public ResponseEntity<User> getUserById(@PathVariable("id") long id) {
-		
-		logger.info("Getting a single user with id: " + id);
-		
+
 		Optional<User> userData = userService.findUserById(id);
 
 		return userData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -99,14 +95,13 @@ public class UserController {
 	 */
 	@PostMapping("/users")
 	public ResponseEntity<User> createNewUser(@RequestBody User user){
-		logger.info("Creating a new user");
 		try {
-			User _user = userService
+			User newUser = userService
 					.saveUser(new User(user.getUserName(), user.getLastName(), user.getFirstName(), user.getPassword()));
-			return new ResponseEntity<>(_user, HttpStatus.CREATED);
+			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
 		} catch (Exception e) {
 			logger.error(e.toString());
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(new User(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -118,17 +113,16 @@ public class UserController {
 	 */
 	@PutMapping("/users/{id}")
 	public ResponseEntity<User>	updateUser(@PathVariable ("id") long id, @RequestBody User user){
-		logger.info("Changing user with id: " + id);
-		
+
 		Optional<User> userData = userService.findUserById(id);
 
 		if (userData.isPresent()) {
-			User _user = userData.get();
-			_user.setUserName(user.getUserName());
-			_user.setLastName(user.getLastName());
-			_user.setFirstName(user.getFirstName());
-			_user.setPassword(user.getPassword());
-			return new ResponseEntity<>(userService.saveUser(_user), HttpStatus.OK);
+			User newUser = userData.get();
+			newUser.setUserName(user.getUserName());
+			newUser.setLastName(user.getLastName());
+			newUser.setFirstName(user.getFirstName());
+			newUser.setPassword(user.getPassword());
+			return new ResponseEntity<>(userService.saveUser(newUser), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -142,7 +136,6 @@ public class UserController {
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
 		try {
-			logger.info("Deleting user with id: " + id);
 			userService.deleteUserById(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
