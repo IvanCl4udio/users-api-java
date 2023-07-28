@@ -1,7 +1,6 @@
 package com.ivancl4udio.cruduser.model;
 
 import jakarta.persistence.*;
-import java.util.Objects;
 
 /**
  * Classe de entidade utilizada para persistência das informações.
