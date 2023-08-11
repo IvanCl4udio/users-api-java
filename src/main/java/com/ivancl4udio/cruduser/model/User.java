@@ -1,78 +1,81 @@
 package com.ivancl4udio.cruduser.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Classe de entidade utilizada para persistência das informações.
  */
 @Entity
-@Table(name="appuser")
+@Table(name = "appuser")
 public class User {
 
-	@Id	
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long id;
-	
-	@Column(name = "username", unique = true, nullable = false)
-	private String userName;
-	
-	@Column(name = "lastname")
-	private String lastName;
-	
-	@Column(name = "firstname")
-	private String firstName;
-	
-	@Column(name = "password")
-	private String password;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	public User() {}
-		
-	public User(String userName, String lastName, String firstName, String password) {
-		super();
-		this.userName = userName;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.password = password;
-	}
+    @NotNull(message = "O nome de usuário não pode ser nulo.")
+    @Column(name = "username", unique = true, nullable = false)
+    private String userName;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "lastname")
+    private String lastName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name = "firstname")
+    private String firstName;
 
-	public String getUserName() {
-		return userName;
-	}
+    @Column(name = "password")
+    private String password;
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+    public User() {
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public User(String userName, String lastName, String firstName, String password) {
+        super();
+        this.userName = userName;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.password = password;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getUserName() {
+        return userName;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }
