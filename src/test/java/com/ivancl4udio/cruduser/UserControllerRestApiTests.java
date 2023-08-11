@@ -154,6 +154,7 @@ class UserControllerRestApiTests {
         mockMvc.perform(get("/api/users/1"))
                 .andExpect(status().isNotFound());
     }
+
     private User buildTestingUser() {
         User user = new User();
         user.setId(1L);
