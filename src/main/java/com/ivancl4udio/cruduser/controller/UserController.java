@@ -59,18 +59,22 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers(@RequestParam(required = false) String lastName)
             throws UserServiceException, NotFoundException {
 
+        logger.info("Getting all users");
+
         List<User> users = new ArrayList<>();
 
         if (lastName == null) {
             users.addAll(userService.findAllUsers());
         } else {
+            logger.info("Getting users by last name");
             users.addAll(userService.findByLastName(lastName));
         }
 
         if (users.isEmpty()) {
+            logger.error("No users found");
             throw new NotFoundException("No users found");
         }
-
+        logger.info("Returning users");
         return new ResponseEntity<>(users, HttpStatus.OK);
 
     }
@@ -84,9 +88,9 @@ public class UserController {
     @GetMapping("users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") long id)
             throws UserServiceException, UserNotFoundException {
-
+        logger.info("Getting user by id");
         Optional<User> userData = userService.findUserById(id);
-
+        logger.info("Returning user");
         return userData.map(user -> new ResponseEntity<>(user, HttpStatus.OK)).orElseThrow(()
                 -> new UserNotFoundException("User not found with id: " + id));
     }
@@ -100,9 +104,10 @@ public class UserController {
     @PostMapping("/users")
     public ResponseEntity<User> createNewUser(@RequestBody User user)
             throws UserServiceException {
+        logger.info("Creating new user");
         User newUser = userService
                 .saveUser(new User(user.getUserName(), user.getLastName(), user.getFirstName(), user.getPassword()));
-
+        logger.info("Returning new user");
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
@@ -116,7 +121,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user)
             throws UserServiceException, UserNotFoundException {
-
+        logger.info("Updating user");
         Optional<User> userData = userService.findUserById(id);
 
         if (userData.isPresent()) {
@@ -125,8 +130,10 @@ public class UserController {
             newUser.setLastName(user.getLastName());
             newUser.setFirstName(user.getFirstName());
             newUser.setPassword(user.getPassword());
+            logger.info("Returning updated user");
             return new ResponseEntity<>(userService.saveUser(newUser), HttpStatus.OK);
         } else {
+            logger.error("User not found");
             throw new UserNotFoundException("User not found with id: " + id);
         }
     }
@@ -140,7 +147,9 @@ public class UserController {
     @DeleteMapping("/users/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable("id") long id)
             throws UserServiceException {
+        logger.info("Deleting user");
         userService.deleteUserById(id);
+        logger.info("Returning no content");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
