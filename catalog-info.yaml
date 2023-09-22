@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: crud-users
+  annotations:
+    github.com/project-slug: IvanCl4udio/crud-users
+spec:
+  type: other
+  lifecycle: unknown
+  owner: guests
