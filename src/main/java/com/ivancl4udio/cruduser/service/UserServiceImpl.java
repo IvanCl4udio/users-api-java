@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.ivancl4udio.cruduser.model.User;
 import com.ivancl4udio.cruduser.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * UserServiceImpl
@@ -66,12 +67,14 @@ public class UserServiceImpl implements UserService {
      * @throws UserServiceException
      */
     @Override
+    @Transactional
     public User saveUser(User user) throws UserServiceException {
         try {
             logger.info("Saving user on database.");
             return this.userRepository.save(user);
         } catch (Exception e) {
             logger.error("Error saving user on database.");
+            logger.error(e.getMessage());
             throw new UserServiceException("Error saving user on database.");
         }
     }
