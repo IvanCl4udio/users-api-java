@@ -32,3 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 /postgres-data/
+
+### Environment ###
+.env
+
+### Docker Volumes ###
+postgres-data/
