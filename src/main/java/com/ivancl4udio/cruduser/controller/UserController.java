@@ -85,7 +85,7 @@ public class UserController {
      * @param id - Long - identificador único do cliente.
      * @return ResponseEntity
      */
-    @GetMapping("users/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") long id)
             throws UserServiceException, UserNotFoundException {
         logger.info("Getting user by id");
