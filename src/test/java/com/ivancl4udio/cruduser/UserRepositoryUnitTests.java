@@ -65,12 +65,14 @@ class UserRepositoryUnitTests {
     @Test
     void save_should_update_existing_user(){
         User currentUser = new User("iclaudio", "Claudio", "Ivan","123456");
-        
+        currentUser.setId(user1.getId());
+
         //When
         User updatedUser= this.userRepository.save(currentUser);
-        
+
         //Then
         assertNotNull(updatedUser);
+        assertEquals(user1.getId(), updatedUser.getId());
         assertEquals("iclaudio", updatedUser.getUserName());
         assertEquals("Claudio", updatedUser.getLastName());
     }
