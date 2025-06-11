@@ -11,10 +11,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface UserRepository extends JpaRepository<User, Long>{
 
-		/**
-		 * Método que busca pelo último nome do usuário
-		 * @param lastName - String - último nome do usuário
-		 * @return - User
-		 */
-		List<User> findByLastName(String lastName);
+                /**
+                 * Método que busca pelo último nome do usuário
+                 *
+                 * @param lastName - String - último nome do usuário
+                 * @return lista de usuários correspondentes ao último nome informado
+                 */
+                List<User> findByLastName(String lastName);
 }
