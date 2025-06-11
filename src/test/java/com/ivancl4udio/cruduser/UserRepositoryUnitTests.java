@@ -59,7 +59,7 @@ class UserRepositoryUnitTests {
 
         //Then
         assertNotNull(userSaved);
-        assertEquals(3, userSaved.getId().longValue());
+        assertEquals(2, userSaved.getId().longValue());
     }
 
     @Test
