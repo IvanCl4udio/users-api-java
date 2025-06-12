@@ -2,6 +2,7 @@ package com.ivancl4udio.cruduser.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.ivancl4udio.cruduser.exception.UserServiceException;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
      * @throws UserServiceException
      */
     @Override
-    public Optional<User> findUserById(Long id) throws UserServiceException {
+    public Optional<User> findUserById(UUID id) throws UserServiceException {
         try {
             logger.info("Getting user with id from database.");
             return this.userRepository.findById(id);
@@ -86,7 +87,7 @@ public class UserServiceImpl implements UserService {
      * @throws UserServiceException
      */
     @Override
-    public void deleteUserById(Long id) throws UserServiceException {
+    public void deleteUserById(UUID id) throws UserServiceException {
         try {
             logger.info("Deleting user on database.");
             this.userRepository.deleteById(id);

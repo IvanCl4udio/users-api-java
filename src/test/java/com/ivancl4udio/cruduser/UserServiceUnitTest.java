@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.ivancl4udio.cruduser.exception.UserServiceException;
 import org.junit.jupiter.api.Assertions;
@@ -51,12 +52,12 @@ class UserServiceUnitTest {
         User user = this.buildTestingUser();
 
         //When
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
-        Optional<User> returnedUser = userServiceImpl.findUserById(1L);
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+        Optional<User> returnedUser = userServiceImpl.findUserById(user.getId());
 
         //Then
         assertEquals(user.getId(), returnedUser.get().getId());
-        verify(this.userRepository).findById(1L);
+        verify(this.userRepository).findById(user.getId());
     }
 
     @Test
@@ -110,11 +111,12 @@ class UserServiceUnitTest {
 
     @Test
     void findUserById_test_UserServiceException() {
-        when(userRepository.findById(10L)).thenThrow(new RuntimeException("Error getting user from database."));
+        UUID testId = UUID.randomUUID();
+        when(userRepository.findById(testId)).thenThrow(new RuntimeException("Error getting user from database."));
         UserServiceException thrown = Assertions.assertThrows(
                 UserServiceException.class,
                 () -> {
-                    this.userServiceImpl.findUserById(10L);
+                    this.userServiceImpl.findUserById(testId);
                 }, "Error getting user from database.");
         Assertions.assertEquals("Error getting user from database.", thrown.getMessage());
     }
@@ -133,11 +135,12 @@ class UserServiceUnitTest {
 
     @Test
     void deleteUserById_test_UserServiceException() {
-        doThrow(new RuntimeException("Error deleting user on database.")).when(userRepository).deleteById(10L);
+        UUID testId = UUID.randomUUID();
+        doThrow(new RuntimeException("Error deleting user on database.")).when(userRepository).deleteById(testId);
         UserServiceException thrown = Assertions.assertThrows(
                 UserServiceException.class,
                 () -> {
-                    this.userServiceImpl.deleteUserById(10L);
+                    this.userServiceImpl.deleteUserById(testId);
                 }, "Error deleting user on database.");
 
         Assertions.assertEquals("Error deleting user on database.", thrown.getMessage());
@@ -157,7 +160,7 @@ class UserServiceUnitTest {
 
     private User buildTestingUser(){
         User user = new User();
-            user.setId(1L);
+            user.setId(UUID.randomUUID());
             user.setFirstName("Ivan");
             user.setLastName("Cruz");
             user.setUserName("icruz");

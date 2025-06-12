@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,7 +41,7 @@ class UserControllerRestApiTests {
         mockMvc.perform(get("/api/users?lastName=Cruz"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].id",is(user.getId().toString())))
                 .andExpect(jsonPath("$[0].firstName",is("Ivan")))
                 .andExpect(jsonPath("$[0].lastName",is("Cruz")))
                 .andExpect(jsonPath("$[0].userName",is("icruz")))
@@ -58,7 +59,7 @@ class UserControllerRestApiTests {
         mockMvc.perform(get("/api/users"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].id",is(1)))
+            .andExpect(jsonPath("$[0].id",is(user.getId().toString())))
             .andExpect(jsonPath("$[0].firstName",is("Ivan")))
             .andExpect(jsonPath("$[0].lastName",is("Cruz")))
             .andExpect(jsonPath("$[0].userName",is("icruz")))
@@ -80,11 +81,11 @@ class UserControllerRestApiTests {
         //Given
         User user = this.buildTestingUser();
         //When
-        when(userService.findUserById(1L)).thenReturn(java.util.Optional.of(user));
+        when(userService.findUserById(user.getId())).thenReturn(java.util.Optional.of(user));
         //Then
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/api/users/" + user.getId().toString()))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.id",is(1)))
+        .andExpect(jsonPath("$.id",is(user.getId().toString())))
         .andExpect(jsonPath("$.firstName",is("Ivan")))
         .andExpect(jsonPath("$.lastName",is("Cruz")))
         .andExpect(jsonPath("$.userName",is("icruz")))
@@ -105,7 +106,7 @@ class UserControllerRestApiTests {
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"firstName\":\"Ivan\",\"lastName\":\"Cruz\",\"userName\":\"icruz\",\"password\":\"123456\"}"))
         .andExpect(status().isCreated())
-        .andExpect(jsonPath("$.id",is(1)))
+        .andExpect(jsonPath("$.id",is(user.getId().toString())))
         .andExpect(jsonPath("$.firstName",is("Ivan")))
         .andExpect(jsonPath("$.lastName",is("Cruz")))
         .andExpect(jsonPath("$.userName",is("icruz")))
@@ -118,10 +119,10 @@ class UserControllerRestApiTests {
         //Given
         User user = this.buildTestingUser();
         //When
-        when(userService.findUserById(1L)).thenReturn(java.util.Optional.of(user));
+        when(userService.findUserById(user.getId())).thenReturn(java.util.Optional.of(user));
         when(userService.saveUser((User) org.mockito.ArgumentMatchers.any(User.class))).thenReturn(user);
         //Then
-        mockMvc.perform(put("/api/users/1")
+        mockMvc.perform(put("/api/users/" + user.getId().toString())
         .contentType(MediaType.APPLICATION_JSON)
         .content("{\"firstName\":\"Ivan\",\"lastName\":\"Cruz\",\"userName\":\"icruz\",\"password\":\"123456\"}"))
         .andExpect(status().isOk());
@@ -132,9 +133,9 @@ class UserControllerRestApiTests {
         //Given
         User user = this.buildTestingUser();
         //when
-        when(userService.findUserById(1L)).thenReturn(java.util.Optional.of(user));
+        when(userService.findUserById(user.getId())).thenReturn(java.util.Optional.of(user));
         //Then
-        mockMvc.perform(delete("/api/users/1"))
+        mockMvc.perform(delete("/api/users/" + user.getId().toString()))
         .andExpect(status().isNoContent());
     }
 
@@ -149,15 +150,16 @@ class UserControllerRestApiTests {
     @Test
     void should_return_blank_result_when_get_a_single_user() throws Exception {
         //When
-        when(userService.findUserById(1L)).thenReturn(Optional.empty());
+        UUID testId = UUID.randomUUID();
+        when(userService.findUserById(testId)).thenReturn(Optional.empty());
         //Then
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/api/users/" + testId.toString()))
                 .andExpect(status().isNotFound());
     }
 
     private User buildTestingUser() {
         User user = new User();
-        user.setId(1L);
+        user.setId(UUID.randomUUID());
         user.setFirstName("Ivan");
         user.setLastName("Cruz");
         user.setUserName("icruz");

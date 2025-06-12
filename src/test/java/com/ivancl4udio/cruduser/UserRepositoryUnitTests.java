@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class UserRepositoryUnitTests {
     @Test
     void findById_should_return_user() {
         //When
-        Optional<User> user = userRepository.findById(1L);
+        Optional<User> user = userRepository.findById(user1.getId());
         
         //Then
         assertTrue(user.isPresent());
@@ -59,7 +60,7 @@ class UserRepositoryUnitTests {
 
         //Then
         assertNotNull(userSaved);
-        assertEquals(2, userSaved.getId().longValue());
+        assertNotNull(userSaved.getId());
     }
 
     @Test
@@ -79,8 +80,8 @@ class UserRepositoryUnitTests {
     void deleteById_should_delete_user() {
         try {
             //When
-            userRepository.deleteById(1L);
-            Optional<User> userSearched = userRepository.findById(1L);
+            userRepository.deleteById(user1.getId());
+            Optional<User> userSearched = userRepository.findById(user1.getId());
             //Then
             assertFalse(userSearched.isPresent());
         } catch (Exception e) {

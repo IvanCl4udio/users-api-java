@@ -2,6 +2,7 @@ package com.ivancl4udio.cruduser.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.ivancl4udio.cruduser.exception.UserServiceException;
 import com.ivancl4udio.cruduser.model.User;
@@ -22,7 +23,7 @@ public interface UserService {
      * @return Optional<User>
      * @throws UserServiceException
      */
-    Optional<User> findUserById(Long id) throws UserServiceException;
+    Optional<User> findUserById(UUID id) throws UserServiceException;
 
     /**
      * @param lastName
@@ -42,5 +43,5 @@ public interface UserService {
      * @param id
      * @throws UserServiceException
      */
-    void deleteUserById(Long id) throws UserServiceException;
+    void deleteUserById(UUID id) throws UserServiceException;
 }
