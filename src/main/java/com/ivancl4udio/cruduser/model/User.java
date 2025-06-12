@@ -2,6 +2,7 @@ package com.ivancl4udio.cruduser.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import java.util.UUID;
 
 /**
  * Classe de entidade utilizada para persistência das informações.
@@ -12,7 +13,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     @NotNull(message = "O nome de usuário não pode ser nulo.")
     @Column(name = "username", unique = true, nullable = false)
@@ -38,11 +39,11 @@ public class User {
         this.password = password;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

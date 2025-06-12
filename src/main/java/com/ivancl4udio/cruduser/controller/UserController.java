@@ -3,6 +3,7 @@ package com.ivancl4udio.cruduser.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.ivancl4udio.cruduser.exception.NotFoundException;
 import com.ivancl4udio.cruduser.exception.UserNotFoundException;
@@ -82,11 +83,11 @@ public class UserController {
     /**
      * Método que obtém as informações de um usuário a partir do id passado como parâmetro.
      *
-     * @param id - Long - identificador único do cliente.
+     * @param id - UUID - identificador único do cliente.
      * @return ResponseEntity
      */
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") long id)
+    public ResponseEntity<User> getUserById(@PathVariable("id") UUID id)
             throws UserServiceException, UserNotFoundException {
         logger.info("Getting user by id");
         Optional<User> userData = userService.findUserById(id);
@@ -114,12 +115,12 @@ public class UserController {
     /**
      * Método que atualiza as informações de usuário existente na base de dados.
      *
-     * @param id   - Long - identificador do usuário a ser alterado.
+     * @param id   - UUID - identificador do usuário a ser alterado.
      * @param user - User - objeto contendo as informações que devem ser atualizadas
      * @return - ResponseEntity
      */
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") long id, @RequestBody User user)
+    public ResponseEntity<User> updateUser(@PathVariable("id") UUID id, @RequestBody User user)
             throws UserServiceException, UserNotFoundException {
         logger.info("Updating user");
         Optional<User> userData = userService.findUserById(id);
@@ -141,11 +142,11 @@ public class UserController {
     /**
      * Método que realiza a exclusão de um usuário existente na base de dados.
      *
-     * @param id - Long - identificador único do usuário.
+     * @param id - UUID - identificador único do usuário.
      * @return - HttpStatus
      */
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable("id") long id)
+    public ResponseEntity<User> deleteUser(@PathVariable("id") UUID id)
             throws UserServiceException {
         logger.info("Deleting user");
         userService.deleteUserById(id);
