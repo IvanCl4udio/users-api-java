@@ -1,4 +1,4 @@
-package com.ivancl4udio.cruduser.controller;
+package com.ivancl4udio.cruduser.controller.v1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController {
 
     final Logger logger = LoggerFactory.getLogger(UserController.class);
